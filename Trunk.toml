@@ -1,0 +1,19 @@
+[build]
+target = "./src-ui/index.html"
+dist = "./src-ui/dist"
+
+[watch]
+ignore = ["./src-tauri"]
+
+[serve]
+addresses = ["127.0.0.1"]
+port = 1420
+open = false
+
+[[hooks]]
+stage = "pre_build"
+command = "sh"
+command_arguments = [
+    "-c",
+    "NODE_ENV=production NODE_PATH=\"$(npm root -g)\" tailwindcss -i ./src-ui/input.css -o ./src-ui/public/css/tailwind.min.css --minify",
+]
