@@ -90,7 +90,7 @@ export function propertyValue(value) {
 
 export function configureAndroidSigning({ root = projectRoot, env = process.env } = {}) {
   const credentials = signingCredentials({ root, env });
-  const androidRoot = join(root, 'src-tauri', 'gen', 'android');
+  const androidRoot = join(root, 'novumchat-backend', 'gen', 'android');
   const gradlePath = join(androidRoot, 'app', 'build.gradle.kts');
   const source = readFileSync(gradlePath, 'utf8');
   const markerStart = source.indexOf(beginMarker);

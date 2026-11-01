@@ -125,8 +125,8 @@ test('fresh native projects initialize before their own build', () => {
     env: { TAURI_ENV_PLATFORM: 'darwin' },
     exists: (path) => { checkedPaths.push(path); return false; },
   });
-  assert.ok(checkedPaths.some((path) => path.endsWith(join('src-tauri', 'gen', 'android', 'gradlew'))));
-  assert.ok(checkedPaths.some((path) => path.endsWith(join('src-tauri', 'gen', 'apple', 'project.yml'))));
+  assert.ok(checkedPaths.some((path) => path.endsWith(join('novumchat-backend', 'gen', 'android', 'gradlew'))));
+  assert.ok(checkedPaths.some((path) => path.endsWith(join('novumchat-backend', 'gen', 'apple', 'project.yml'))));
   assert.deepEqual(commands.filter(({ command }) => command === 'npm').map(({ args }) => args.slice(3, 5)), [
     ['android', 'init'],
     ['android', 'build'],
@@ -143,7 +143,7 @@ test('existing native projects are preserved and only missing projects initializ
   const { commands } = capture({
     host: 'darwin',
     env: { TAURI_ENV_PLATFORM: 'darwin' },
-    exists: (path) => path.endsWith(join('src-tauri', 'gen', 'android', 'gradlew')),
+    exists: (path) => path.endsWith(join('novumchat-backend', 'gen', 'android', 'gradlew')),
   });
   const initializations = commands.filter(({ command, args }) => command === 'npm' && args[4] === 'init');
   assert.deepEqual(initializations.map(({ args }) => args[3]), ['ios']);

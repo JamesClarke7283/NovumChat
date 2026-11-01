@@ -1,0 +1,83 @@
+[package]
+name = "novumchat-frontend"
+description = "NovumChat user interface (Leptos, compiled to WebAssembly)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+novumchat-core = { workspace = true, features = ["markdown"] }
+leptos = { version = "0.8", features = ["csr"] }
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+web-sys = { version = "0.3", features = [
+  "Window",
+  "Document",
+  "Element",
+  "HtmlElement",
+  "HtmlInputElement",
+  "HtmlTextAreaElement",
+  "HtmlIFrameElement",
+  "HtmlDocument",
+  "Node",
+  "NodeList",
+  "DomTokenList",
+  "CssStyleDeclaration",
+  "Event",
+  "EventTarget",
+  "KeyboardEvent",
+  "MouseEvent",
+  "PointerEvent",
+  "TouchEvent",
+  "TouchList",
+  "Touch",
+  "DragEvent",
+  "ClipboardEvent",
+  "DataTransfer",
+  "DataTransferItem",
+  "DataTransferItemList",
+  "File",
+  "FileList",
+  "FileReader",
+  "Blob",
+  "BlobPropertyBag",
+  "Url",
+  "Storage",
+  "Location",
+  "Navigator",
+  "Clipboard",
+  "MediaQueryList",
+  "MediaQueryListEvent",
+  "EventSource",
+  "MessageEvent",
+  "Headers",
+  "Request",
+  "RequestInit",
+  "RequestMode",
+  "Response",
+  "ScrollBehavior",
+  "ScrollIntoViewOptions",
+  "ScrollLogicalPosition",
+  "ScrollToOptions",
+  "DomRect",
+  "SpeechSynthesis",
+  "SpeechSynthesisUtterance",
+  "VisualViewport",
+  "ResizeObserver",
+  "ResizeObserverEntry",
+  "IntersectionObserver",
+  "IntersectionObserverEntry",
+  "IntersectionObserverInit",
+] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde-wasm-bindgen = "0.6"
+console_log = "1.0"
+log = "0.4"
+console_error_panic_hook = "0.1"
+futures = "0.3"
+gloo-timers = { version = "0.3", features = ["futures"] }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#0e1b2b" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f2f5f9" media="(prefers-color-scheme: light)" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>NovumChat</title>
+  <script>
+    // Apply the saved theme before first paint (no light/dark flash).
+    (function () {
+      var mode = 'auto', accent = 'aurora';
+      try { mode = localStorage.getItem('novum-theme') || 'auto'; accent = localStorage.getItem('novum-accent') || 'aurora'; } catch (e) {}
+      var dark = mode === 'dark' || (mode === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+      var d = document.documentElement;
+      d.setAttribute('data-theme', dark ? 'dark' : 'light');
+      d.setAttribute('data-accent', accent);
+    })();
+  </script>
+  <link data-trunk rel="icon" href="public/favicon.svg" />
+  <link data-trunk rel="copy-dir" href="public/vendor" />
+  <link data-trunk rel="copy-dir" href="public/js" />
+  <link data-trunk rel="css" href="public/css/app.css" />
+  <link rel="stylesheet" href="vendor/katex/katex.min.css" />
+  <script src="vendor/purify.min.js"></script>
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="vendor/katex/mhchem.min.js"></script>
+  <script src="vendor/hljs/highlight.min.js"></script>
+  <script src="js/bridge.js"></script>
+  <link data-trunk rel="rust" data-bin="novumchat-frontend" data-wasm-opt="z" data-wasm-opt-params="--enable-bulk-memory --enable-nontrapping-float-to-int --enable-sign-ext --enable-mutable-globals --enable-reference-types --enable-multivalue" />
+</head>
+<body>
+  <noscript>NovumChat needs JavaScript and WebAssembly.</noscript>
+</body>
+</html>

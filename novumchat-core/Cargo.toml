@@ -1,0 +1,22 @@
+[package]
+name = "novumchat-core"
+description = "Shared types, configuration schema and rendering logic for NovumChat"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+pulldown-cmark = { version = "0.13", default-features = false, features = ["html"], optional = true }
+
+[features]
+default = []
+# Markdown + math + code-block rendering used by the frontend (pure Rust, testable natively).
+markdown = ["dep:pulldown-cmark"]
+
+[dev-dependencies]
+toml = "1"

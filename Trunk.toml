@@ -1,19 +1,17 @@
 [build]
-target = "./src-ui/index.html"
-dist = "./src-ui/dist"
+target = "./novumchat-frontend/index.html"
+dist = "./novumchat-frontend/dist"
 
 [watch]
-ignore = ["./src-tauri"]
+ignore = ["./novumchat-backend", "./novumchat-frontend/public/css", "./novumchat-frontend/public/vendor", "./target"]
 
 [serve]
 addresses = ["127.0.0.1"]
 port = 1420
 open = false
 
+# Vendors KaTeX / highlight.js / DOMPurify / Mermaid / fonts and compiles Tailwind.
 [[hooks]]
 stage = "pre_build"
-command = "sh"
-command_arguments = [
-    "-c",
-    "NODE_ENV=production NODE_PATH=\"$(npm root -g)\" tailwindcss -i ./src-ui/input.css -o ./src-ui/public/css/tailwind.min.css --minify",
-]
+command = "node"
+command_arguments = ["scripts/prebuild.mjs"]

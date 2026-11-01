@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "NovumChat",
+  "version": "0.2.0",
+  "identifier": "com.novumchat.client",
+  "app": {
+    "security": {
+      "assetProtocol": {
+        "scope": []
+      },
+      "csp": null
+    },
+    "windows": [
+      {
+        "label": "main",
+        "title": "NovumChat",
+        "width": 1240,
+        "height": 840,
+        "minWidth": 360,
+        "minHeight": 560,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true,
+        "dragDropEnabled": false
+      }
+    ],
+    "withGlobalTauri": true
+  },
+  "build": {
+    "beforeBuildCommand": "node scripts/build.mjs",
+    "beforeDevCommand": "trunk serve",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../novumchat-frontend/dist"
+  },
+  "bundle": {
+    "active": true,
+    "category": "Productivity",
+    "copyright": "Copyright (c) 2024-2026 James David Clarke",
+    "externalBin": [],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "linux": {
+      "appimage": {},
+      "deb": {
+        "depends": []
+      }
+    },
+    "shortDescription": "A beautiful, private, multi-model AI chat client",
+    "longDescription": "NovumChat is a full featured LLM chat client for OpenAI-compatible and Ollama endpoints with streaming, ensembles, tools, MCP servers, web search, live HTML apps, LaTeX and optional AES-256 encryption of your chat history.",
+    "macOS": {
+      "dmg": {},
+      "entitlements": null,
+      "exceptionDomain": "",
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": null
+    },
+    "resources": [],
+    "targets": "all",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    }
+  }
+}

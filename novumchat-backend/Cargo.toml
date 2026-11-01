@@ -1,0 +1,118 @@
+[package]
+name = "novumchat-backend"
+description = "NovumChat backend: Tauri shell, LLM providers, storage, tools, MCP and web search"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+default-run = "novumchat"
+
+[lib]
+# Distinct from the binary target so the cdylib doesn't emit a colliding
+# `novumchat.dll`/`novumchat.pdb`, which breaks Windows bundling.
+name = "novumchat_backend_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "novumchat"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2.7", features = [] }
+
+[dependencies]
+novumchat-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+tauri = { version = "2.12", features = [] }
+tauri-plugin-opener = "2"
+
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time", "process", "fs", "io-util", "signal"] }
+tokio-util = { version = "0.7", features = ["rt"] }
+futures = "0.3"
+async-stream = "0.3"
+
+# LLM providers
+async-openai = { version = "0.42", default-features = false, features = ["rustls", "chat-completion", "model", "byot"] }
+ollama-rs = { version = "0.3.6", default-features = false, features = ["stream", "rustls", "headers"] }
+
+# Storage
+sea-orm = { version = "2.0", default-features = false, features = [
+  "sqlx-sqlite",
+  "runtime-tokio-rustls",
+  "macros",
+  "with-json",
+  "schema-sync",
+] }
+directories = "6"
+toml = "1"
+
+# Encryption at rest
+aes-gcm = "0.10"
+argon2 = "0.5"
+zeroize = { version = "1", features = ["derive"] }
+getrandom = "0.3"
+base64 = "0.22"
+
+# Tools, MCP and web
+reqwest = { version = "0.13", default-features = false, features = ["json", "rustls", "stream", "gzip", "brotli", "query", "form"] }
+rmcp = { version = "3.8", default-features = false, features = [
+  "client",
+  "transport-child-process",
+  "transport-streamable-http-client-reqwest",
+  "reqwest",
+] }
+scraper = "0.29"
+html2text = "0.17"
+regex = "1"
+ignore = "0.4"
+globset = "0.4"
+url = "2"
+urlencoding = "2"
+mime_guess = "2"
+shell-words = "1"
+similar = "2"
+pdf-extract = "0.12"
+
+# Misc
+uuid = { version = "1", features = ["v4", "v7"] }
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+anyhow = "1"
+thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+parking_lot = "0.12"
+dunce = "1"
+
+# Optional headless web server mode (`novumchat --serve`).
+axum = { version = "0.8", optional = true }
+tower-http = { version = "0.6", features = ["fs", "cors"], optional = true }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+# Desktop: web search uses the platform TLS stack (OpenSSL / SChannel /
+# Security.framework). Search engines fingerprint TLS clients and reject
+# unusual ones, which affects rustls; mobile keeps rustls only.
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+reqwest = { version = "0.13", default-features = false, features = ["native-tls"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[features]
+# by default Tauri runs in production mode
+# when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
+default = ["custom-protocol", "web-server"]
+# this feature is used used for production builds where `devPath` points to the filesystem
+# DO NOT remove this
+custom-protocol = ["tauri/custom-protocol"]
+# Serve the UI + API over HTTP (`novumchat --serve 127.0.0.1:8484`) for browser/LAN use.
+web-server = ["dep:axum", "dep:tower-http"]
+
+[[example]]
+name = "mock_llm"
+required-features = ["web-server"]

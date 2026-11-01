@@ -9,7 +9,7 @@ function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'tauri-android-signing-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const privateRoot = join(root, 'keys');
-  const androidRoot = join(root, 'src-tauri', 'gen', 'android');
+  const androidRoot = join(root, 'novumchat-backend', 'gen', 'android');
   const gradlePath = join(androidRoot, 'app', 'build.gradle.kts');
   mkdirSync(privateRoot, { recursive: true });
   mkdirSync(join(androidRoot, 'app'), { recursive: true });

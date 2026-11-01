@@ -91,11 +91,6 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      # The Trunk pre_build hook (Tailwind v4) and the tauri-sys crate need
-      # these on the global npm root; the hook resolves them via NODE_PATH.
-      - name: Install global npm tools (Tailwind + esbuild)
-        run: npm install --global tailwindcss @tailwindcss/cli esbuild
-
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -150,15 +145,15 @@ jobs:
             rust_targets: wasm32-unknown-unknown,aarch64-linux-android
             artifact: android-aarch64-signed
             artifacts: |
-              src-tauri/gen/android/app/build/outputs/apk/**/*.apk
-              src-tauri/gen/android/app/build/outputs/bundle/**/*.aab
+              novumchat-backend/gen/android/app/build/outputs/apk/**/*.apk
+              novumchat-backend/gen/android/app/build/outputs/bundle/**/*.aab
 
           - name: iOS aarch64 (unsigned)
             platform: macos-latest
             mobile: ios
             rust_targets: wasm32-unknown-unknown,aarch64-apple-ios
             artifact: ios-aarch64-unsigned
-            artifacts: src-tauri/gen/apple/build/arm64/*.ipa
+            artifacts: novumchat-backend/gen/apple/build/arm64/*.ipa
 
     runs-on: ${{ matrix.platform }}
 
@@ -175,9 +170,6 @@ jobs:
       # no Apple certificates, provisioning profiles, or development team.
       - name: Install npm dependencies
         run: npm ci
-
-      - name: Install global npm tools (Tailwind + esbuild)
-        run: npm install --global tailwindcss @tailwindcss/cli esbuild
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -255,8 +247,8 @@ jobs:
       - name: Verify Android signatures
         if: matrix.mobile == 'android'
         run: |
-          mapfile -d '' apks < <(find src-tauri/gen/android/app/build/outputs/apk -type f -name '*.apk' -print0)
-          mapfile -d '' bundles < <(find src-tauri/gen/android/app/build/outputs/bundle -type f -name '*.aab' -print0)
+          mapfile -d '' apks < <(find novumchat-backend/gen/android/app/build/outputs/apk -type f -name '*.apk' -print0)
+          mapfile -d '' bundles < <(find novumchat-backend/gen/android/app/build/outputs/bundle -type f -name '*.aab' -print0)
           (( ${#apks[@]} > 0 && ${#bundles[@]} > 0 ))
           for apk in "${apks[@]}"; do
             "$ANDROID_HOME/build-tools/37.0.0/apksigner" verify --verbose "$apk"

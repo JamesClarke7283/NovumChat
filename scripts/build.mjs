@@ -67,9 +67,9 @@ export function beforeBuild({
     ]);
   }
 
-  buildMobile('android', 'aarch64-linux-android', 'src-tauri/gen/android/gradlew', ['--apk', '--aab']);
+  buildMobile('android', 'aarch64-linux-android', 'novumchat-backend/gen/android/gradlew', ['--apk', '--aab']);
   if (host === 'darwin') {
-    buildMobile('ios', 'aarch64-apple-ios', 'src-tauri/gen/apple/project.yml', ['--no-sign']);
+    buildMobile('ios', 'aarch64-apple-ios', 'novumchat-backend/gen/apple/project.yml', ['--no-sign']);
   } else {
     log('iOS IPA requires macOS and Xcode. Use this command on macOS or the GitHub iOS build job.');
   }
